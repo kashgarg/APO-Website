@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
-// import { getFirestore } from "firebase/firestore";
 import { db } from "./../utilities/firebase";
 import { useState } from "react";
-
+import { WHAT_IS_APO_DOCUMENT, APO_WEBSITE_COLLECTION } from '../constants/index.js'
 
 
 const WhatIsAPO = () => {
@@ -12,15 +11,13 @@ const WhatIsAPO = () => {
 
   useEffect(() => {
     const logFirebase = async () => {
-      const docRef = doc(db, 'APO Website', "What is APO");
+      const docRef = doc(db, APO_WEBSITE_COLLECTION, WHAT_IS_APO_DOCUMENT);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
         const data = docSnap.data();
         setImage(data.image)
         setText(data.text)
       } else {
-        // docSnap.data() will be undefined in this case
         console.log("No such document!");
       }
     };
