@@ -1,25 +1,44 @@
-import { useState } from "react";
-
-const PILLARS = {
-    "leadership": {
-        "image": "https://static1.squarespace.com/static/5e0ebeb743524e391e0c522c/t/5e1e38437abcac1fe3edacc3/1579038791636/apo.jpg?format=300w",
-        "text": "APO LEADERSHIP dolor sit amet, consectetur adipiscing elit. Praesent orci nibh, porta vel finibus sed, feugiat ac magna. In hac habitasse platea dictumst. Maecenas elit nisl, porta congue rhoncus non, lacinia a elit. Morbi quis imperdiet ligula, nec iaculis eros. In hac habitasse platea dictumst. Vestibulum tincidunt, arcu ac consequat mattis, sapien orci facilisis diam, eu venenatis ligula tortor auctor ipsum. Suspendisse cursus tortor ac faucibus hendrerit. Nulla dictum quam a magna eleifend bibendum."    
-    },
-    "friendship": {
-        "image": "https://static1.squarespace.com/static/5e0ebeb743524e391e0c522c/t/5e1e38437abcac1fe3edacc3/1579038791636/apo.jpg?format=300w",
-        "text": "APO FRIENDSHIP dolor sit amet, consectetur adipiscing elit. Praesent orci nibh, porta vel finibus sed, feugiat ac magna. In hac habitasse platea dictumst. Maecenas elit nisl, porta congue rhoncus non, lacinia a elit. Morbi quis imperdiet ligula, nec iaculis eros. In hac habitasse platea dictumst. Vestibulum tincidunt, arcu ac consequat mattis, sapien orci facilisis diam, eu venenatis ligula tortor auctor ipsum. Suspendisse cursus tortor ac faucibus hendrerit. Nulla dictum quam a magna eleifend bibendum."    
-    },
-    "service": {
-        "image": "https://static1.squarespace.com/static/5e0ebeb743524e391e0c522c/t/5e1e38437abcac1fe3edacc3/1579038791636/apo.jpg?format=300w",
-        "text": "APO SERVICE dolor sit amet, consectetur adipiscing elit. Praesent orci nibh, porta vel finibus sed, feugiat ac magna. In hac habitasse platea dictumst. Maecenas elit nisl, porta congue rhoncus non, lacinia a elit. Morbi quis imperdiet ligula, nec iaculis eros. In hac habitasse platea dictumst. Vestibulum tincidunt, arcu ac consequat mattis, sapien orci facilisis diam, eu venenatis ligula tortor auctor ipsum. Suspendisse cursus tortor ac faucibus hendrerit. Nulla dictum quam a magna eleifend bibendum."    
-    }
-}
+import { useEffect, useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "./../utilities/firebase";
+import { OUR_3_PILLARS_DOCUMENT, APO_WEBSITE_COLLECTION } from '../constants/index.js'
 
 const Our3Pillars = () => {
-    const [copy, setCopy] = useState(PILLARS['leadership']);
+    const [pillars, setPillars] = useState({})
+    const [copy, setCopy] = useState({})
+
+    useEffect(() => {
+        const logFirebase = async () => {
+            const docRef = doc(db, APO_WEBSITE_COLLECTION, OUR_3_PILLARS_DOCUMENT);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                const temp = {
+                    "leadership": {
+                        "imageUrl": data.leadership_image_url,
+                        "text": data.leadership_text
+                    },
+                    "friendship": {
+                        "imageUrl": data.friendship_image_url,
+                        "text": data.friendship_text
+                    },
+                    "service": {
+                        "imageUrl": data.service_image_url,
+                        "text": data.service_text
+                    }
+                }
+                setPillars(temp);
+                setCopy(temp.leadership);
+            } else {
+                console.log("No such document!");
+            }
+        };
+        logFirebase();
+    }, []);
+
 
     function handleClick(pillar) {
-        setCopy(PILLARS[pillar])
+        setCopy(pillars[pillar]);
     }
 
     return <>
@@ -33,7 +52,7 @@ const Our3Pillars = () => {
             <div className="flex">
                 <p className="mr-10">{copy.text}
                 </p>
-                <img className="object-cover h-64 w-100" src={copy.image} alt="APO Leadership"/>
+                <img className="object-cover h-64 w-100" src={copy.imageUrl} alt="APO Leadership"/>
             </div>
         </div>
     </>;
