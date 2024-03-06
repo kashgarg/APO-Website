@@ -6,6 +6,7 @@ import { OUR_3_PILLARS_DOCUMENT, APO_WEBSITE_COLLECTION } from '../constants/ind
 const Our3Pillars = () => {
     const [pillars, setPillars] = useState({})
     const [copy, setCopy] = useState({})
+    const [activePillar, setActivePillar] = useState("")
 
     useEffect(() => {
         const logFirebase = async () => {
@@ -16,19 +17,20 @@ const Our3Pillars = () => {
                 const temp = {
                     "leadership": {
                         "imageUrl": data.leadership_image_url,
-                        "text": data.leadership_text
+                        "text": data.leadership_text,
                     },
                     "friendship": {
                         "imageUrl": data.friendship_image_url,
-                        "text": data.friendship_text
+                        "text": data.friendship_text,
                     },
                     "service": {
                         "imageUrl": data.service_image_url,
-                        "text": data.service_text
+                        "text": data.service_text,
                     }
                 }
                 setPillars(temp);
-                setCopy(temp.leadership);
+                setCopy(temp['leadership']);
+                setActivePillar('leadership');
             } else {
                 console.log("No such document!");
             }
@@ -38,16 +40,17 @@ const Our3Pillars = () => {
 
 
     function handleClick(pillar) {
-        setCopy(pillars[pillar]);
+        setCopy(pillars[pillar])
+        setActivePillar(pillar)
     }
 
     return <>
         <h1 className="text-4xl my-6 text-[#0F3B8E]">Our 3 Pillars</h1>
         <div className="grid-column bg-[#E9EFFD] p-12">
             <div className="flex">
-                <button onClick={() => handleClick('leadership')} className="text-2xl mr-6 mb-6 text-[#0F3B8E]">Leadership</button>
-                <button onClick={() => handleClick('friendship')} className="text-2xl mr-6 mb-6 text-[#0F3B8E]">Friendship</button>
-                <button onClick={() => handleClick('service')} className="text-2xl mr-6 mb-6 text-[#0F3B8E]">Service</button>
+                <button onClick={() => handleClick('leadership')} className={`text-2xl mr-6 mb-6 ${activePillar === 'leadership' ? 'text-[#0F3B8E] underline' : 'text-[#3c78ea]'} hover:text-[#0F3B8E]`}>Leadership</button>
+                <button onClick={() => handleClick('friendship')} className={`text-2xl mr-6 mb-6 ${activePillar === 'friendship' ? 'text-[#0F3B8E] underline' : 'text-[#3c78ea]'} hover:text-[#0F3B8E]`}>Friendship</button>
+                <button onClick={() => handleClick('service')} className={`text-2xl mr-6 mb-6 ${activePillar === 'service' ? 'text-[#0F3B8E] underline' : 'text-[#3c78ea]'} hover:text-[#0F3B8E]`}>Service</button>
             </div>
             <div className="flex">
                 <p className="mr-10">{copy.text}
@@ -59,3 +62,5 @@ const Our3Pillars = () => {
 }
 
 export default Our3Pillars;
+
+// hover:text-[#0F3B8E]
