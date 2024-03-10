@@ -46,7 +46,7 @@ const Our3Pillars = () => {
 
     return <>
         <h1 className="text-4xl my-6 text-[#0F3B8E]">Our 3 Pillars</h1>
-        <div className="grid-column bg-[#E9EFFD] p-12">
+        <div className="grid-column bg-[#E9EFFD] p-12 mb-8">
             <div className="flex">
                 <button onClick={() => handleClick('leadership')} className={`text-2xl mr-6 mb-6 ${activePillar === 'leadership' ? 'text-[#0F3B8E] underline' : 'text-[#3c78ea]'} hover:text-[#0F3B8E]`}>Leadership</button>
                 <button onClick={() => handleClick('friendship')} className={`text-2xl mr-6 mb-6 ${activePillar === 'friendship' ? 'text-[#0F3B8E] underline' : 'text-[#3c78ea]'} hover:text-[#0F3B8E]`}>Friendship</button>
