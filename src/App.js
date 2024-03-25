@@ -4,7 +4,7 @@ import Sections from './components/Sections';
 import Our3Pillars from './components/Our3Pillars';
 import Header from './components/Header';
 import Footer from "./components/Footer";
-import Socials from './components/Socials';
+import Events from "./components/Events";
 
 function App() {
   return (
@@ -13,6 +13,7 @@ function App() {
       <Sections>
         <WhatIsAPO />
         <Our3Pillars />
+        <Events />
       </Sections>
       <Footer />
     </div>

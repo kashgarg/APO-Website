@@ -26,7 +26,7 @@ const WhatIsAPO = () => {
 
   return (
     <>
-      <h1 className="text-4xl my-6 text-[#0F3B8E]">What is APO</h1>
+      <h1 className="text-4xl my-6 text-[#0F3B8E] font-serif">What is APO</h1>
       <div className="flex">
         <img
           className="mr-6 object-cover h-64 w-100"
